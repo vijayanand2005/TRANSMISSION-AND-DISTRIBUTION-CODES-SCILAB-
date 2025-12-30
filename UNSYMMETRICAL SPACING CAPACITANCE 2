@@ -1,0 +1,19 @@
+clc;
+clear;
+
+// Given values 
+length_km = 100;            
+D = 2.5;                    
+dia = 2e-2;                 
+r = dia / 2;                
+epsilon0 = 8.854e-12;       
+
+// ----- CALCULATIONS -----
+c_per_m  = 2 * %pi * epsilon0 / log(D / r);     // per meter
+c_per_km = c_per_m * 1000;                      // per km
+c_total  = c_per_km * length_km;                // for 100 km
+
+// ----- DISPLAY -----
+disp("Capacitance per meter (F/m) = ", c_per_m);
+disp("Capacitance per kilometer (F/km) = ", c_per_km);
+disp("Total capacitance for 100 km (F) = ", c_total);

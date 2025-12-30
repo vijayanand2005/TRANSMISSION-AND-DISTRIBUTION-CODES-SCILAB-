@@ -1,0 +1,62 @@
+clc;
+clear;
+
+// Line parameters per km
+R_per_km = 0.25;      // ohm/km
+X_per_km = 0.8;        // ohm/km
+B_per_km = 14e-6;      // siemens/km
+length = 100;          // km
+
+// Receiving end data
+Vr_line = 66000;       // line voltage in V
+P_load = 15000;        // power in kW
+pf_load = 0.8;         // lagging
+
+// Total line parameters
+R_total = R_per_km * length;
+X_total = X_per_km * length;
+B_total = B_per_km * length;
+Z_total = R_total + %i * X_total;
+
+mprintf("Total resistance of the line (ohm) = %f\n", R_total);
+mprintf("Total reactance of the line (ohm) = %f\n", X_total);
+mprintf("Total susceptance of the line (S) = %e\n", B_total);
+mprintf("Total impedance of the line = %f + j%f\n", real(Z_total), imag(Z_total));
+
+// Per-phase values
+Vr_phase = Vr_line / sqrt(3);
+P_total = P_load * 1000;   // Convert kW to W
+P_phase = P_total / 3;
+
+// Receiving end current
+Ir = P_phase / (Vr_phase * pf_load);
+theta_load = acos(pf_load);  // Load angle
+
+Ir_real = Ir * cos(theta_load);
+Ir_reactive = Ir * sin(theta_load);
+
+mprintf("Receiving end current (A) = %f\n", Ir);
+mprintf("Receiving end current (complex) = %f - j%f\n", Ir_real, Ir_reactive);
+
+// Capacitive current (per phase)
+Ic = Vr_phase * B_total;
+mprintf("Capacitive current (A) = %f\n", Ic);
+
+// Sending end current
+Is_real = Ir_real;
+Is_reactive = -Ir_reactive + Ic;
+Is = sqrt(Is_real^2 + Is_reactive^2);
+mprintf("Sending End Current (A) = %f\n", Is);
+
+// Sending end voltage (per phase)
+Vs_phase = Vr_phase + Is_real*R_total + %i*(Is_reactive*X_total);  // phasor addition
+Vs_line = abs(Vs_phase) * sqrt(3);
+mprintf("Sending End Voltage (V) = %f\n", Vs_line);
+
+// Voltage regulation
+regulation = ((Vs_line - Vr_line) / Vr_line) * 100;
+mprintf("Voltage Regulation (%%) = %f\n", regulation);
+
+// Sending end power factor
+pf_supply = Is_real / Is;  // cosine of sending current angle
+mprintf("Supply Power Factor = %f\n", pf_supply);

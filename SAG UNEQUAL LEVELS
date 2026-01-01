@@ -1,0 +1,36 @@
+clc;
+clear;
+
+// -------- INPUTS --------
+h1 = 30;
+h2 = 90;
+L  = 500;
+w  = 1.5;
+T  = 1600;
+
+// -------- DISPLAY INPUTS --------
+disp("INPUTS:");
+disp("h1 (m) = ", h1);
+disp("h2 (m) = ", h2);
+disp("Span L (m) = ", L);
+disp("Weight w (kg/m) = ", w);
+disp("Tension T (kg) = ", T);
+
+// -------- CALCULATIONS --------
+h = h2 - h1;
+
+x_diff = (2*h*T) / (w*L);
+x2 = (L + x_diff) / 2;
+x1 = (L - x_diff) / 2;
+
+s1 = (w * x1^2) / (2*T);
+clear_min = h1 - s1;
+
+x_mid = (L/2) - x1;
+s_mid = (w * x_mid^2) / (2*T);
+clear_mid = clear_min + s_mid;
+
+// -------- DISPLAY OUTPUTS --------
+disp("OUTPUT:");
+disp("Minimum clearance from water (m) = ", clear_min);
+disp("Clearance at midpoint (m) = ", clear_mid);

@@ -1,0 +1,29 @@
+V_s = 120e3;  
+V_r = 110e3; 
+R = 6; 
+XL = 8;  
+pf_r = 0.9;  
+
+V_s_phase = V_s / sqrt(3); 
+mprintf("Sending End Voltage per phase in Volts = %f\n", V_s_phase); 
+
+V_r_phase = V_r / sqrt(3); 
+mprintf("Receiving End Voltage per phase in Volts = %f\n", V_r_phase); 
+
+theta_r = acos(pf_r); 
+mprintf("Phase angle of the load (rad) = %f\n", theta_r); 
+
+Sintheta = sin(theta_r); 
+mprintf("Sin of pf angle = %f\n", Sintheta); 
+
+I_r = (V_s_phase - V_r_phase) / ((R*pf_r) + (XL*Sintheta)); 
+mprintf("Current in A = %f\n", I_r);
+
+P_r = 3 * V_r_phase * I_r * pf_r; 
+mprintf("Power output in watts = %f\n", P_r); 
+
+P_r_MW = P_r / 1e6;  
+mprintf("The power output at receiving end (P_r) in MW = %f\n", P_r_MW); 
+
+pf_s = ((V_r_phase*pf_r) + (I_r*R)) / V_s_phase; 
+mprintf("Sending End Power Factor = %f\n", pf_s);

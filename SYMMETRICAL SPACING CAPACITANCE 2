@@ -1,0 +1,23 @@
+clc;
+clear;
+
+// ------ GIVEN DATA ------
+L = 30*1000;          // Line length in meters
+d = 15 / 1000;          // Diameter in meters
+r = d / 2;              // Radius in meters
+D = 1.5;                // Spacing between conductors in meters
+e0 = 8.854e-12;         // Permittivity (F/m)
+
+// ------ CAPACITANCE PER METER ------
+C1 = %pi * e0 / log(D / r);
+
+// ------ TOTAL CAPACITANCE FOR 30 km ------
+C2 = C1*L;
+
+// ------ CAPACITANCE BETWEEN TWO WIRES ------
+
+
+// ------ DISPLAY ------
+disp("Capacitance per meter (F/m) = ", C1);
+disp("Capacitance for 30 km (F) = ", C2);
+;

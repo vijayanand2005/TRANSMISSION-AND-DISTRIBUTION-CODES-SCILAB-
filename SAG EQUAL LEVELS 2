@@ -1,0 +1,34 @@
+clc;
+clear;
+
+// -------- INPUTS --------
+L = 260;             // span in meters
+Su = 3100;           // ultimate strength (kg)
+SF = 2;              // safety factor
+h_ground = 10;       // minimum ground clearance (m)
+
+// -------- CALCULATIONS --------
+T = Su / SF;         // working tension (kg)
+
+// Create array of conductor weights (kg/m) from 0.5 to 1 kg/m
+w = 0.5:0.05:1.0;
+
+// Calculate sag for each weight
+sag = (w * L^2) / (8 * T);
+
+// -------- DISPLAY INPUTS --------
+disp("INPUTS:");
+disp("Span L (m) = "); disp(L);
+disp("Ultimate strength Su (kg) = "); disp(Su);
+disp("Safety factor SF = "); disp(SF);
+
+// -------- DISPLAY OUTPUTS --------
+disp("Sag values (m) for different weights (kg/m):");
+disp(sag);
+
+// -------- PLOT --------
+plot(w, sag);
+xlabel("Conductor weight (kg/m)");
+ylabel("Sag (m)");
+title("Sag vs. Conductor Weight");
+grid();

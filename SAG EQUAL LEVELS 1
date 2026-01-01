@@ -1,0 +1,33 @@
+clc;
+clear;
+
+// -------- INPUTS --------
+L = 250;           // span in meters
+T = 750;           // tension in kg
+w = 1000;          // conductor weight in N/m
+g = 9.81;          // acceleration due to gravity
+
+// -------- DISPLAY INPUTS --------
+disp("INPUTS:");
+disp("Span L (m) = ");        disp(L);
+disp("Tension T (kg) = ");    disp(T);
+disp("Conductor weight w (N/m) = "); disp(w);
+
+// -------- CALCULATIONS --------
+T_N = T * g;                 // convert tension to N
+s_max = (w * L^2) / (8 * T_N);
+
+// -------- DISPLAY OUTPUTS --------
+disp("OUTPUTS:");
+disp("Maximum sag (m) = ");   disp(s_max);
+
+// -------- GRAPH --------
+// Create a range of weights for graph (50% to 150% of given weight)
+w_range = w*0.5:50:w*1.5;   
+sag_range = (w_range * L^2) / (8 * T_N);   // calculate sag for each weight
+
+plot(w_range, sag_range, '-o');
+xlabel("Conductor weight (N/m)");
+ylabel("Sag (m)");
+title("Sag vs Conductor Weight");
+xgrid();   // add grid in Scilab

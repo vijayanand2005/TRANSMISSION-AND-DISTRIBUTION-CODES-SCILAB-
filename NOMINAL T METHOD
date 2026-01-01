@@ -1,0 +1,35 @@
+R_km_phase = 0.1; 
+Xl_km_phase = 0.2; 
+B_km_phase = 0.04 * 10^(-4); 
+L = 100; 
+VR_line= 66000; 
+VR_phase = VR_line / sqrt(3); 
+disp('Receiving end voltage per phase in V=',VR_phase); 
+S_load = 10000 * 10^3; 
+pf_load = 0.8; 
+theta_R = acos(pf_load); 
+R = R_km_phase * L; 
+XL = Xl_km_phase * L; 
+Y = %i * B_km_phase * L; 
+disp('Total Resistance in ohms =',R) 
+disp('Total Reactance in ohms=',XL) 
+disp('Total Susceptance in mho',Y) 
+IR = S_load / (sqrt(3) * VR_line *pf_load); 
+disp('Receiving end current magnitude in A',IR); 
+Z = R + %i * XL; 
+IR_angle = -theta_R; 
+IR_phasor = IR * exp(%i * IR_angle); 
+disp('Receiving end current in complex form A',IR_phasor); 
+VC = VR_phase + IR_phasor * (Z/2); 
+IC = Y * VC; 
+IS = IR_phasor + IC; 
+disp('Sending end current (IS): ' , abs(IS) , " A"); 
+VS = VC + IS * (Z/2); 
+disp('Sending end voltage (VS): ', abs(VS) / 1000 , " kV"); 
+theta_S = atan(imag(IS) / real(IS)); 
+pf_S = cos(theta_S); 
+disp('Sending end power factor: ' , pf_S); 
+P_sending = 3 * abs(VS) * abs(IS) * pf_S; 
+P_received = S_load; 
+efficiency = (P_received / P_sending) * 100;  
+disp('Transmission efficiency: ', efficiency , " %");

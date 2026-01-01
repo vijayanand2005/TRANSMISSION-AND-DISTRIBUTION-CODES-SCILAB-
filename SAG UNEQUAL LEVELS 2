@@ -1,0 +1,37 @@
+clc; clear;
+
+// -------- INPUTS --------
+L = 275;          // Span in meters
+wc = 0.865;       // Conductor weight in kg/m
+d = 1.96;         // Conductor diameter in cm
+t = 1.27;         // Ice thickness in cm
+T = 8060 / 2;     // Working tension in kg
+
+// -------- DISPLAY INPUTS --------
+disp("INPUTS:");
+disp("Span L (m) = "), disp(L);
+disp("Conductor weight wc (kg/m) = "), disp(wc);
+disp("Conductor diameter d (cm) = "), disp(d);
+disp("Ice thickness t (cm) = "), disp(t);
+disp("Working tension T (kg) = "), disp(T);
+
+// -------- CALCULATIONS --------
+// Weight of ice per meter
+Wice = 0.91 * (d * t + t^2);  // kg/m
+
+// Combined weight of conductor and ice
+Wv = wc + Wice;               
+
+// Wind load per meter
+Ww = 3.9 * ((d + 2 * t) / 100);  // Convert cm to meters
+
+// Resultant weight per meter
+w = sqrt(Wv^2 + Ww^2);
+
+// Sag formula (in meters)
+sag = (w * L^2) / (8 * T);
+
+// -------- DISPLAY OUTPUTS --------
+disp("OUTPUTS:");
+disp("Total weight (kg/m) = "), disp(w);
+disp("Sag (m) = "), disp(sag);

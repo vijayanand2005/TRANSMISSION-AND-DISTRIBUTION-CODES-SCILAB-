@@ -1,0 +1,8 @@
+clc; 
+clear; 
+d=input('Enter the spacing between conductor in centimeter ='); 
+r=input('Enter the radius of the conductor in centimeter ='); 
+Cl=%pi*8.854*10^(-12)/log (d/r); 
+disp('The Capacitance of the single phase line in F/m =', Cl); 
+Cl_km=Cl*1000; 
+disp('The Capacitance of single phase Line in F/km = ',Cl_km); 
